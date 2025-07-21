@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+    <div class="container">
+        <div class="search-container">
+            <div class="logo">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+            </div>
+            <h1 class="title">Custom Search</h1>
+            <form class="search-form" id="searchForm">
+                <div class="search-input-container">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Search the web..." 
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <button type="submit" class="search-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+            <div class="search-engines">
+                <button class="engine-btn active" data-engine="searxng">SearXNG</button>
+                <button class="engine-btn" data-engine="duckduckgo">DuckDuckGo</button>
+                <button class="engine-btn" data-engine="startpage">Startpage</button>
+            </div>
+        </div>
+        
+        <div class="settings-icon" id="settingsIcon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v6m0 6v6"/>
+                <path d="m15.14 4.14 4.24 4.24m-4.24 4.24 4.24 4.24"/>
+                <path d="m8.86 4.14-4.24 4.24m4.24 4.24-4.24 4.24"/>
+            </svg>
+        </div>
+    </div>
+    
+    <script src="newtab.js"></script>
+</body>
+</html>
