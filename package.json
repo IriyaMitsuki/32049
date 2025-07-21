@@ -1,0 +1,35 @@
+{
+  "name": "custom-search-engine-extension",
+  "version": "1.0.0",
+  "description": "Browser extension to change default search engine and new tab page",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && echo 'Development build complete'",
+    "clean": "rimraf dist",
+    "lint": "eslint .",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "browser-extension",
+    "search-engine",
+    "chrome-extension",
+    "firefox-addon",
+    "searxng",
+    "privacy"
+  ],
+  "author": "Custom Search Extension",
+  "license": "MIT",
+  "devDependencies": {
+    "archiver": "^6.0.1",
+    "eslint": "^8.54.0",
+    "rimraf": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/custom-search-extension.git"
+  }
+}
