@@ -1,0 +1,84 @@
+name: Security Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 1' # Weekly security scan
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run npm audit
+      run: npm audit --audit-level=moderate
+      
+    - name: Run ESLint security scan
+      run: npx eslint . --ext .js,.ts --format json -o eslint-report.json || true
+      
+    - name: Upload ESLint report
+      uses: actions/upload-artifact@v4
+      with:
+        name: eslint-security-report
+        path: eslint-report.json
+        retention-days: 7
+
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build extension
+      run: npm run build
+      
+    - name: Verify manifest files
+      run: |
+        echo "Checking Chrome manifest..."
+        node -e "
+          const manifest = require('./manifest.json');
+          if (manifest.manifest_version !== 3) throw new Error('Chrome manifest must be v3');
+          if (!manifest.permissions || !manifest.host_permissions) throw new Error('Missing required permissions');
+          console.log('✅ Chrome manifest valid');
+        "
+        
+        echo "Checking Firefox manifest..."
+        node -e "
+          const manifest = require('./manifest-firefox.json');
+          if (manifest.manifest_version !== 2) throw new Error('Firefox manifest must be v2');
+          if (!manifest.permissions) throw new Error('Missing required permissions');
+          console.log('✅ Firefox manifest valid');
+        "
+        
+    - name: Check for sensitive data
+      run: |
+        echo "Scanning for potential sensitive data..."
+        ! grep -r -i "password\|secret\|token\|key" --include="*.js" --include="*.json" . || {
+          echo "⚠️  Warning: Potential sensitive data found"
+          grep -r -i "password\|secret\|token\|key" --include="*.js" --include="*.json" .
+        }
